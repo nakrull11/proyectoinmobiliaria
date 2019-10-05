@@ -9,6 +9,7 @@ namespace AppWebPruebaFinal.Models
     public class Propietario
     {
         [Key]
+        [Display(Name = "Código")]
         public int IdPropietario { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }

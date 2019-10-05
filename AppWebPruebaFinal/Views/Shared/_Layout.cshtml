@@ -10,12 +10,12 @@
 </head>
 <body onload="init()">
     <header>
-        <nav class="site-header sticky-top py-1">
+        <nav class="site-header sticky-top py-sm-1 bg-primary">
             <div class="container d-flex flex-column flex-md-row justify-content-between">
-                <a class="py-2" asp-controller="Home" asp-action="Index"><span class="lnr lnr-home"></span> Inicio</a>
-                <a class="py-2 d-none d-md-inline-block" asp-controller="Propietarios" asp-action="Index"><span class="lnr lnr-users"></span> Propietarios</a>
-                <a class="py-2 d-none d-md-inline-block" asp-controller="Inmuebles" asp-action="Index"><span class="lnr lnr-apartment"></span> Inmuebles</a>
-                <a class="py-2 d-none d-md-inline-block" asp-controller="Alquileres" asp-action="Index"><span class="lnr lnr-license"></span> Contratos</a>
+                <a class="py-2 font-weight-light" asp-controller="Home" asp-action="Index"><span class="lnr lnr-home"></span> Inicio</a>
+                <a class="py-2 d-none d-md-inline-block font-weight-light" asp-controller="Propietario" asp-action="Index"><span class="lnr lnr-users"></span> Propietarios</a>
+                <a class="py-2 d-none d-md-inline-block font-weight-light" asp-controller="Inmuebles" asp-action="Index"><span class="lnr lnr-apartment"></span> Inmuebles</a>
+                <a class="py-2 d-none d-md-inline-block font-weight-light" asp-controller="Alquileres" asp-action="Index"><span class="lnr lnr-license"></span> Contratos</a>
                 @if (User.Identity.IsAuthenticated)
                 {
                 <div class="dropdown">

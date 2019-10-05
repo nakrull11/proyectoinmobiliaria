@@ -69,7 +69,7 @@ namespace AppWebPruebaFinal.Controllers
         }
 
 
-        // GET: Propietario/Edit/
+        // GET: Propietario/Edit/5
         public ActionResult Edit(int id)
         {
             var p = repositorio.ObtenerPorId(id);
@@ -80,7 +80,7 @@ namespace AppWebPruebaFinal.Controllers
             return View(p);
         }
 
-        // POST: Propietario/Edit/
+        // POST: Propietario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)

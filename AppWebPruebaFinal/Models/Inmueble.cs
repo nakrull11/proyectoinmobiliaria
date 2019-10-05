@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,8 +9,19 @@ namespace AppWebPruebaFinal.Models
 {
     public class Inmueble
     {
-        public int IdInmueble { get; set; }
-        public Double Precio { get; set; }
-        public int IdPropietario { get; set; }
+        [Display(Name = "Código")]
+        public int Id { get; set; }
+        [Required]
+        public string Direccion { get; set; }
+        [Required]
+        public int Ambientes { get; set; }
+        [Required]
+        public int Superficie { get; set; }
+        public decimal Latitud { get; set; }
+        public decimal Longitud { get; set; }
+        [Display(Name = "Dueño")]
+        public int PropietarioId { get; set; }
+        [ForeignKey("PropietarioId")]
+        public Propietario Duenio { get; set; }
     }
 }
