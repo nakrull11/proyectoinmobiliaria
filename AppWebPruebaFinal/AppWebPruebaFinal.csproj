@@ -6,13 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Imagenes\**" />
+    <Content Remove="Data\Imagenes\**" />
+    <EmbeddedResource Remove="Data\Imagenes\**" />
+    <None Remove="Data\Imagenes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Imagenes\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace AppWebPruebaFinal.Models
 {
-    public class RepositorioPropietario : RepositorioBase, IRepositorioPropietario
+    public class RepositorioAlquiler : RepositorioBase, IRepositorioAlquiler
     {
-        public RepositorioPropietario(IConfiguration configuration) : base(configuration)
+        public RepositorioAlquiler(IConfiguration configuration) : base(configuration)
         {
 
         }
 
-        public int Alta(Propietario p)
+        public int Alta(Alquiler p)
         {
             int res = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"INSERT INTO Propietario (Nombre, Apellido, Dni, Telefono, Email, Clave) " +
-                    $"VALUES ('{p.Nombre}', '{p.Apellido}','{p.Dni}','{p.Telefono}','{p.Email}','{p.Clave}')";
+                string sql = $"INSERT INTO Alquiler (Precio,FechaInicio, FechaFin, InquilinoId, InmuebleId) " +
+                    $"VALUES ('{p.Precio}','{p.FechaInicio}', '{p.FechaFin}','{p.InquilinoId}','{p.InmuebleId}')";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -29,18 +29,19 @@ namespace AppWebPruebaFinal.Models
                     res = command.ExecuteNonQuery();
                     command.CommandText = "SELECT SCOPE_IDENTITY()";
                     var id = command.ExecuteScalar();
-                    p.IdPropietario = Convert.ToInt32(id);
+                    p.IdAlquiler = Convert.ToInt32(id);
                     connection.Close();
                 }
             }
             return res;
         }
+
         public int Baja(int id)
         {
             int res = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"DELETE FROM Propietario WHERE IdPropietario = {id}";
+                string sql = $"DELETE FROM Alquiler WHERE IdAlquiler = {id}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -51,13 +52,14 @@ namespace AppWebPruebaFinal.Models
             }
             return res;
         }
-        public int Modificacion(Propietario p)
+
+        public int Modificacion(Alquiler p)
         {
             int res = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"UPDATE Propietarios SET Nombre='{p.Nombre}', Apellido='{p.Apellido}', Dni'{p.Dni}', Telefono'{p.Telefono}', Email'{p.Email}' " +
-                    $"WHERE IdPropietario = {p.IdPropietario}";
+                string sql = $"UPDATE Alquiler SET Precio='{p.Precio}', FechaInicio='{p.FechaInicio}', FechaFin='{p.FechaFin}', InquilinoId='{p.InquilinoId}', InmuebleId='{p.InmuebleId}'" +
+                    $"WHERE IdAlquiler = {p.IdAlquiler}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -69,44 +71,16 @@ namespace AppWebPruebaFinal.Models
             return res;
         }
 
-        public IList<Propietario> ObtenerTodos()
-        {
-            IList<Propietario> res = new List<Propietario>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string sql ="SELECT * FROM Propietario";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.CommandType = CommandType.Text;
-                    connection.Open();
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Propietario p = new Propietario
-                        {
-                            IdPropietario = reader.GetInt32(0),
-                            Nombre = reader.GetString(1),
-                            Apellido = reader.GetString(2),
-                            Dni = reader.GetString(3),
-                            Telefono = reader.GetString(4),
-                            Email = reader.GetString(5),
-                            
-                        };
-                        res.Add(p);
-                    }
-                    connection.Close();
-                }
-            }
-            return res;
-        }
 
-        public Propietario ObtenerPorId(int id)
+        
+
+        public Alquiler ObtenerPorInmueble(int id)
         {
-            Propietario p = null;
+            Alquiler p = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietario" +
-                    $" WHERE IdPropietario=@id";
+                string sql = $"SELECT IdAlquiler, Precio, FechaInicio, FechaFin, InquilinoId, InmuebleId " +
+                    $" FROM Alquiler WHERE InmuebleId=@id;";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -115,15 +89,15 @@ namespace AppWebPruebaFinal.Models
                     var reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        p = new Propietario
+                        p = new Alquiler
                         {
-                            IdPropietario = reader.GetInt32(0),
-                            Nombre = reader.GetString(1),
-                            Apellido = reader.GetString(2),
-                            Dni = reader.GetString(3),
-                            Telefono = reader.GetString(4),
-                            Email = reader.GetString(5),
-                         
+                            IdAlquiler = reader.GetInt32(0),
+                            Precio = reader.GetDecimal(1),
+                            FechaInicio = reader.GetString(2),
+                            FechaFin = reader.GetString(3),
+                            InquilinoId = reader.GetInt32(4),
+                            InmuebleId = reader.GetInt32(5)
+
                         };
                     }
                     connection.Close();
@@ -132,36 +106,71 @@ namespace AppWebPruebaFinal.Models
             return p;
         }
 
-        public Propietario ObtenerPorEmail(string emai)
+        public Alquiler ObtenerPorInquilino(int id)
         {
-            Propietario p = null;
+            throw new NotImplementedException();
+        }
+
+        public Alquiler ObtenerPorId(int id)
+        {
+            Alquiler p = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios" +
-                    $" WHERE Email=@emai";
+                string sql = $"SELECT IdAlquiler, Precio, FechaInicio, FechaFin, InquilinoId, InmuebleId " +
+                    $" FROM Alquiler WHERE IdAlquiler=@id;";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@emai", SqlDbType.VarChar).Value = emai;
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = id;
                     command.CommandType = CommandType.Text;
                     connection.Open();
                     var reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        p = new Propietario
+                        p = new Alquiler
                         {
-                            IdPropietario = reader.GetInt32(0),
-                            Nombre = reader.GetString(1),
-                            Apellido = reader.GetString(2),
-                            Dni = reader.GetString(3),
-                            Telefono = reader.GetString(4),
-                            Email = reader.GetString(5),
-                            
+                            IdAlquiler = reader.GetInt32(0), 
+                            Precio= reader.GetDecimal(1), 
+                            FechaInicio = reader.GetString(2), 
+                            FechaFin = reader.GetString(3),
+                            InquilinoId = reader.GetInt32(4),
+                            InmuebleId = reader.GetInt32(5)
                         };
                     }
                     connection.Close();
                 }
             }
             return p;
+        }
+
+        public IList<Alquiler> ObtenerTodos()
+        {
+            IList<Alquiler> res = new List<Alquiler>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * " +
+                    $" FROM Alquiler ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Alquiler p = new Alquiler
+                        {
+                            IdAlquiler = reader.GetInt32(0),
+                            Precio = reader.GetDecimal(1),
+                            FechaInicio = reader.GetString(2),
+                            FechaFin = reader.GetString(3),
+                            InquilinoId = reader.GetInt32(4),
+                            InmuebleId = reader.GetInt32(5)
+                        };
+                        res.Add(p);
+                    }
+                    connection.Close();
+                }
+            }
+            return res;
         }
     }
 }

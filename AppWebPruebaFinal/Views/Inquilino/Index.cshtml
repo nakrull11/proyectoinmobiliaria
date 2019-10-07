@@ -1,19 +1,19 @@
-﻿@model IEnumerable<AppWebPruebaFinal.Models.Propietario>
+﻿@model IEnumerable<AppWebPruebaFinal.Models.Inquilino>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h3>Nuestros Propietarios</h3>
+<h3>Inquilinos registrados</h3>
 
 <p>
-    <a asp-action="Create">Crear Nuevo</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdPropietario)
+                @Html.DisplayNameFor(model => model.IdInquilino)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -37,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdPropietario)
+                @Html.DisplayFor(modelItem => item.IdInquilino)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -55,8 +55,9 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Borrar", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
