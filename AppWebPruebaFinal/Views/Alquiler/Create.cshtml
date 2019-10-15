@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Create";
+
+    var inmuebles = ViewBag.Inmuebles as IEnumerable<Inmueble>;
+
+
+    var inquilinos = ViewBag.Inquilinos as IEnumerable<Inquilino>;
 }
 
 <h1>Create</h1>
@@ -31,16 +36,21 @@
                 <input asp-for="FechaFin" class="form-control" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InquilinoId" class="control-label"></label>
-                <input asp-for="InquilinoId" class="form-control" />
-                <span asp-validation-for="InquilinoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InmuebleId" class="control-label"></label>
-                <input asp-for="InmuebleId" class="form-control" />
-                <span asp-validation-for="InmuebleId" class="text-danger"></span>
-            </div>
+            <label asp-for="InmuebleId" class="control-label"></label>
+            <select asp-for="InmuebleId" class="form-control">
+                @foreach (Inmueble i in inmuebles)
+                {
+                    <option value="@i.Id">@i.Direccion @i.Duenio.Dni</option>
+                }
+            </select>
+            <label asp-for="InquilinoId" class="control-label"></label>
+            <select asp-for="InquilinoId" class="form-control">
+                @foreach (Inquilino i in inquilinos)
+                {
+                    <option value="@i.IdInquilino">@i.Nombre @i.Apellido</option>
+                }
+            </select>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

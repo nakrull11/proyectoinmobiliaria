@@ -13,11 +13,16 @@ namespace AppWebPruebaFinal.Controllers
         private readonly IRepositorio<Alquiler> repositorio;
         
 
-        public AlquilerController(IRepositorio<Alquiler> repositorio)
+        public AlquilerController(IRepositorio<Alquiler> repositorio, IRepositorioInmueble inmuebles, IRepositorio<Inquilino> inquilinos)
         {
             this.repositorio = repositorio;
-            
+            Inmuebles = inmuebles;
+            Inquilinos = inquilinos;
+
         }
+
+        public IRepositorioInmueble Inmuebles { get; set; }
+        public IRepositorio<Inquilino> Inquilinos { get; set; }
         // GET: Alquiler
         public ActionResult Index()
         {
@@ -37,6 +42,8 @@ namespace AppWebPruebaFinal.Controllers
         // GET: Alquiler/Create
         public ActionResult Create()
         {
+            ViewBag.Inquilinos = Inquilinos.ObtenerTodos();
+            ViewBag.Inmuebles = Inmuebles.ObtenerTodos();
             return View();
         }
 

@@ -62,23 +62,27 @@ namespace AppWebPruebaFinal.Controllers
         // GET: Inquilino/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var i = repositorio.ObtenerPorId(id);
+            return View(i);
         }
 
         // POST: Inquilino/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Inquilino collection)
         {
             try
             {
-                // TODO: Add update logic here
-
+                collection.IdInquilino= id;
+                repositorio.Modificacion(collection);
+               
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(collection);
             }
         }
 
